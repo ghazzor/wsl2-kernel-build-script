@@ -132,10 +132,8 @@ else
 fi
 
 # Set compiler optimizations
-export CC="ccache gcc"
-export CXX="ccache g++"
-export CFLAGS="-O2 -pipe -march=native" # Aggressive optimization flags
-export CXXFLAGS="$CFLAGS" # Aggressive optimization flags
+export LLVM=1
+export LLVM_IAS=1
 
 announce_options() {
     # Announce options after all inputs have been processed
@@ -176,10 +174,10 @@ install_required_packages() {
     local missing_packages
     missing_packages=""
     pkgs=(
-        bc bison build-essential ccache cmake curl debootstrap dwarves flex g++
-        g++-s390x-linux-gnu gcc gcc-s390x-linux-gnu gdb-multiarch git libcap-dev
-        libelf-dev libncurses-dev libncurses5 libncursesw5 libncursesw5-dev
-        libssl-dev make pkg-config python3 qemu-system-misc qemu-utils rsync wget
+        bc bison build-essential ccache cmake curl debootstrap dwarves flex clang
+        libelf-dev elfutils git libcap-dev libncurses-dev libncurses5 libncursesw5
+        libncursesw5-dev libssl-dev make pkg-config python3 qemu-system-misc
+        qemu-utils rsync wget lld llvm
     )
 
     for pkg in "${pkgs[@]}"; do
@@ -300,7 +298,7 @@ install_kernel() {
 
 # Run the kernel building code
 cwd="$PWD"
-parent="/tmp/wsl2-build-script"
+parent="$cwd"
 working="$parent/working"
 error_log="$parent/error.log"
 
