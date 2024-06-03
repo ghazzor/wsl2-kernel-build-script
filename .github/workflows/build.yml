@@ -22,7 +22,7 @@ jobs:
       - name: Build Kernel
         run: |
           sudo apt-get update -yqq
-          sudo bash build-kernel.sh
+          sudo bash build-kernel.sh 2
           ls
           cp working/linux-msft-wsl-*/vmlinux .
       - name: Upload Kernel
